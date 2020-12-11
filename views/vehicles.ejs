@@ -64,18 +64,22 @@
 			<h1>
 				select vehicles
 			</h1>
-			<form>
-				<%for(i=0;i<vehicles.length;i++){%>
+			<form action="/bookslot" method="POST">
 				
-					<p>
-						
-						<%=vehicles[i].vehiclenum;%>
-				</p>
+				<%for(i=0;i<vehicles.length;i++){%>
+					<div class="form-check">
+  						<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="<%=vehicles[i].vehiclenum;%>">
+  						<label class="form-check-label" for="exampleRadios2"><%=vehicles[i].vehiclenum;%></label>
+					</div>
 				<%}%>
+				<button type="submit" class="btn btn-primary">Book slot</button>
+
 			</form> 
+			<p>
+				Add another vehicle
+			</p>
 			<form action="/addvehicle" class="inline">
     		<button class="float-left submit-button" >Add new vehicle</button>
-			<button class="float-left submit-button" >Book slot</button>
 			</form>
 		</div>
 	</body>

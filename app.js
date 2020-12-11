@@ -160,7 +160,7 @@ app.get('/vehicles',async(req,res)=>{
 	if(token && auth.checktoken(token)){
 		
 		 let curr=cur[0].name;
-		console.log(curr);
+		
 		let curuser=await user.findOne().where({name:curr});
 		
 		
@@ -209,6 +209,15 @@ app.post('/addvehicle',async(req,res)=>{
 	res.redirect("/vehicles");
 	
 })
+
+app.post('/bookslot',async(req,res)=>{
+		console.log(req.body.exampleRadios);
+		res.send("slot is booked");
+	
+})
+
+
+
 /*vehicle.find({},function(err,allvehicles){if(err){console.log("oops");}
 else {
 console.log(allvehicles);
