@@ -1,17 +1,17 @@
-
 let User=require('../modules/user').user;
 let express=require('express');
 let router=express.Router();
 let auth=require("../controllers/auth");
+let cur=[];
 router.post('/login',async(req,res)=>{
 	let email=req.body.email;
 	let password=req.body.password;
-	let user=await User.find().where({emailid:email}).where({password:password});
-	if(user.length>0){
-		let curuser=user[0];
-		let token=auth.generatetoken(user[0]);
+	let user=await User.findOne().where({emailid:email}).where({password:password});
+	if(user){
+		cur.push(user);
+		let token=auth.generatetoken(user);
 		res.cookie('auth_token',token);
-		console.log(curuser);
+		
 		res.send({
 			redirectURL:'/vehicles'
 		})
@@ -43,5 +43,4 @@ router.post('/register',async(req,res)=>{
 		res.send('rejected');
 	}
 })
-module.exports=router;
-
+module.exports={router:router,cur:{cur}}

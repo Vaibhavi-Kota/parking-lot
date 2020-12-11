@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 <html>
@@ -61,10 +60,22 @@
 		</nav>
 		<div class="container">
 			
-			<!--display vehicles-->
-			
+		
+			<h1>
+				select vehicles
+			</h1>
+			<form>
+				<%for(i=0;i<vehicles.length;i++){%>
+				
+					<p>
+						
+						<%=vehicles[i].vehiclenum;%>
+				</p>
+				<%}%>
+			</form> 
 			<form action="/addvehicle" class="inline">
     		<button class="float-left submit-button" >Add new vehicle</button>
+			<button class="float-left submit-button" >Book slot</button>
 			</form>
 		</div>
 	</body>

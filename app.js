@@ -6,15 +6,17 @@ let cookieparser=require("cookie-parser");
 let auth=require("./controllers/auth");
 let mongoose=require("mongoose");
 let jwt=require('jsonwebtoken');
-let secret='djnk68kn8h';
+
+
 mongoose.connect('mongodb://localhost:27017/parking-lot', {
 	useNewUrlParser: true,
 	useUnifiedTopology:true
 });
 let usersRouter=require('./routes/users');
+let {cur}=usersRouter.cur;
 app.use(express.static('public'));
 app.use(express.json());
-app.use('/users',usersRouter);
+app.use('/users',usersRouter.router);
 app.use(bodyparser.urlencoded({extended:false})) ;
 app.use(bodyparser.json()) ;
 app.use(cookieparser()); 
@@ -153,22 +155,37 @@ app.get('/parkinglot',(req,res)=>
 	res.render("parkinglot");
 })
 
-app.get('/vehicles',(req,res)=>{
+app.get('/vehicles',async(req,res)=>{
 	let token=req.cookies['auth_token'];
 	if(token && auth.checktoken(token)){
 		
-		/*jwt.verify(token,secret,function(err, decoded) {
-  var userId = decoded._id  
-		console.log(userId)
-};  */
-		  
-		res.render("vehicles");
+		 let curr=cur[0].name;
+		console.log(curr);
+		let curuser=await user.findOne().where({name:curr});
+		
+		
+		let vehiclearr=[];
+		 let vehi=curuser.vehicles;
+		
+		
+		let i;
+		for(i=0;i<vehi.length;i++)
+			{
+				let abc=await vehicle.findOne().where({_id:vehi[i]});
+				vehiclearr.push(abc);
+			}
+			
+				res.render("vehicles",{cur:curuser,vehicles:vehiclearr});
+		
 	}
 	else{
+		
 		res.redirect("/login");
 	}
 	
 })
+
+
 app.get('/addvehicle',(req,res)=>{
 	res.render("addvehicle");
 })
@@ -183,18 +200,24 @@ app.post('/addvehicle',async(req,res)=>{
 		})
 		console.log("success");
 	await newvehicle.save();
+	let curr=cur[0].name;
+	console.log(curr);
+	let curuser=await user.findOne().where({name:curr});
+	console.log(curuser);
+	await curuser.vehicles.push(newvehicle);
+	curuser.save();
+	res.redirect("/vehicles");
 	
 })
-vehicle.find({},function(err,allvehicles){if(err){console.log("oops");}
+/*vehicle.find({},function(err,allvehicles){if(err){console.log("oops");}
 else {
 console.log(allvehicles);
 }});
 user.find({},function(err,allusers){if(err){console.log("oops");}
 else {
 console.log(allusers);
-}});
+}});*/
 
-app.listen('3000',()=>{
-	console.log("listening to port 3002")
+app.listen('3006',()=>{
+	console.log("listening to port 3006")
 })
-

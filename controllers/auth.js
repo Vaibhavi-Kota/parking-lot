@@ -1,5 +1,6 @@
 let jwt=require('jsonwebtoken');
 let secret='djnk68kn8h';
+
 function generatetoken(user)
 {
 	let payload={
