@@ -13,7 +13,7 @@ router.post('/login',async(req,res)=>{
 	if(user){
 		cur.push(user);
 		i++;
-		console.log(i);
+		
 		num.push(i);
 		let token=auth.generatetoken(user);
 		res.cookie('auth_token',token);

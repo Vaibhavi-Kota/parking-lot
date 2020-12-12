@@ -239,12 +239,12 @@ app.post('/addvehicle',async(req,res)=>{
 					type:vehicletype
 
 				})
-				console.log("success");
+				
 				await newvehicle.save();
 				let curr=cur[num[num.length-1]-1].name;
-				console.log(curr);
+				
 				let curuser=await user.findOne().where({name:curr});
-				console.log(curuser);
+				
 				await curuser.vehicles.push(newvehicle);
 				curuser.save();
 				res.redirect("/vehicles");
@@ -283,7 +283,7 @@ app.post('/bookslot',async(req,res)=>{
 				intime:new Date()
 			})
 			newbooking.save();
-			console.log(newbooking);
+			
 			res.redirect("/stop");
 			}
 			else
@@ -310,7 +310,7 @@ app.post('/stop',async(req,res)=>{
 	curslot.save();
 	let curvehicleid=curbooking.vehicle_id;
 	let curvehicle=await vehicle.findOne().where({_id:curvehicleid});
-	console.log(curbooking);
+	
 	res.render("receipt",{booking:curbooking,username:curusername,slot:curslot,vehicle:curvehicle});
 	
 })
