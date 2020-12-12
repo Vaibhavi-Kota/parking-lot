@@ -14,6 +14,7 @@ mongoose.connect('mongodb://localhost:27017/parking-lot', {
 });
 let usersRouter=require('./routes/users');
 let {cur}=usersRouter.cur;
+let {num}=usersRouter.num;
 app.use(express.static('public'));
 app.use(express.json());
 app.use('/users',usersRouter.router);
@@ -170,7 +171,7 @@ app.get('/vehicles',async(req,res)=>{
 	let token=req.cookies['auth_token'];
 	if(token && auth.checktoken(token)){
 		
-		 let curr=cur[0].name;
+		 let curr=cur[num[num.length-1]-1].name;
 		
 		let curuser=await user.findOne().where({name:curr});
 		
@@ -240,7 +241,7 @@ app.post('/addvehicle',async(req,res)=>{
 				})
 				console.log("success");
 				await newvehicle.save();
-				let curr=cur[0].name;
+				let curr=cur[num[num.length-1]-1].name;
 				console.log(curr);
 				let curuser=await user.findOne().where({name:curr});
 				console.log(curuser);
@@ -261,7 +262,7 @@ app.post('/bookslot',async(req,res)=>{
 		let vehicleno=req.body.exampleRadios;
 		let curvehicle=await vehicle.findOne().where({vehiclenum:vehicleno});
 		
-		let curr=cur[0]._id;
+		let curr=cur[num[num.length-1]-1]._id;
 		let curbooking=await booking.find().where({ user_id:curr,outtime:""});
 		if(curbooking.length===0)
 		{
@@ -297,7 +298,7 @@ app.post('/bookslot',async(req,res)=>{
 
 
 app.post('/stop',async(req,res)=>{
-	let curr=cur[0]._id;
+	let curr=cur[num[num.length-1]-1]._id;
 	let curusername=cur[0].name;
 	let curbooking=await booking.findOne().where({ user_id:curr,outtime:""});
 	curbooking.outtime=new Date();

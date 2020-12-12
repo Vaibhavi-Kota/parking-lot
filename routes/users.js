@@ -3,12 +3,18 @@ let express=require('express');
 let router=express.Router();
 let auth=require("../controllers/auth");
 let cur=[];
+let num=[];
+let i=0;
 router.post('/login',async(req,res)=>{
 	let email=req.body.email;
 	let password=req.body.password;
 	let user=await User.findOne().where({emailid:email}).where({password:password});
+	
 	if(user){
 		cur.push(user);
+		i++;
+		console.log(i);
+		num.push(i);
 		let token=auth.generatetoken(user);
 		res.cookie('auth_token',token);
 		
@@ -43,4 +49,4 @@ router.post('/register',async(req,res)=>{
 		res.send('rejected');
 	}
 })
-module.exports={router:router,cur:{cur}}
+module.exports={router:router,cur:{cur},num:{num}};
