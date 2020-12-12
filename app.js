@@ -7,7 +7,7 @@ let auth=require("./controllers/auth");
 let mongoose=require("mongoose");
 let jwt=require('jsonwebtoken');
 
-
+window:true;
 mongoose.connect('mongodb://localhost:27017/parking-lot', {
 	useNewUrlParser: true,
 	useUnifiedTopology:true
@@ -28,6 +28,7 @@ db.once("open",()=>{
 })
 let vehicle=require("./modules/user").vehicle;
 let user=require("./modules/user").user;
+let booking=require("./modules/user").booking;
 
 /*let user1=new user({
 	id:1,
@@ -45,7 +46,7 @@ else {
 console.log(Allusers);
 }
 });*/
-let slot=require("./modules/slot").slot;
+let slot=require("./modules/user").slot;
 /*let slot1=new slot({
 	slotid:1,
 	occupancy:false
@@ -130,6 +131,11 @@ else {
 console.log(Allslots);
 }});*/
 
+/*booking.remove({},function(err)
+		   {
+ 	if(err){console.log("oops");}
+ });*/
+
 app.get('/',(req,res)=>
 	   {
 	res.render("home");
@@ -152,7 +158,12 @@ app.get('/login',(req,res)=>
 })
 app.get('/parkinglot',(req,res)=>
 	   {
-	res.render("parkinglot");
+	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
+	res.render("parkinglot");}
+	else{
+		res.redirect("/login");
+	}
 })
 
 app.get('/vehicles',async(req,res)=>{
@@ -187,32 +198,119 @@ app.get('/vehicles',async(req,res)=>{
 
 
 app.get('/addvehicle',(req,res)=>{
-	res.render("addvehicle");
+	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
+	res.render("addvehicle");}
+	else{
+		res.redirect("/login");
+	}
 })
+
+app.get('/stop',(req,res)=>{
+	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
+	res.render("stop");
+	}
+	else{
+		res.redirect("/login");
+	}
+})
+
+app.get('/receipt',(req,res)=>{
+	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
+	res.render("receipt");
+	}
+	else{
+		res.redirect("/login");
+	}
+})
+
 
 app.post('/addvehicle',async(req,res)=>{
 		let vehiclenumber=req.body.vehicleno;
 		let vehicletype=req.body.vehicletype;
-		let newvehicle=new vehicle({
-			vehiclenum:vehiclenumber,
-			type:vehicletype
+		let existingvehicle=await vehicle.find().where({vehiclenum:vehiclenumber});
+		if(existingvehicle.length===0)
+			{
+				let newvehicle=new vehicle({
+					vehiclenum:vehiclenumber,
+					type:vehicletype
+
+				})
+				console.log("success");
+				await newvehicle.save();
+				let curr=cur[0].name;
+				console.log(curr);
+				let curuser=await user.findOne().where({name:curr});
+				console.log(curuser);
+				await curuser.vehicles.push(newvehicle);
+				curuser.save();
+				res.redirect("/vehicles");
+			}
+		else{
 			
-		})
-		console.log("success");
-	await newvehicle.save();
-	let curr=cur[0].name;
-	console.log(curr);
-	let curuser=await user.findOne().where({name:curr});
-	console.log(curuser);
-	await curuser.vehicles.push(newvehicle);
-	curuser.save();
-	res.redirect("/vehicles");
+			res.send("vehicle already exists");
+			
+		}
 	
 })
 
 app.post('/bookslot',async(req,res)=>{
-		console.log(req.body.exampleRadios);
-		res.send("slot is booked");
+	
+		let vehicleno=req.body.exampleRadios;
+		let curvehicle=await vehicle.findOne().where({vehiclenum:vehicleno});
+		
+		let curr=cur[0]._id;
+		let curbooking=await booking.find().where({ user_id:curr,outtime:""});
+		if(curbooking.length===0)
+		{
+
+			let emptyslot=await slot.findOne().where({occupancy:false});
+			if(emptyslot)
+			{
+			emptyslot.occupancy=true;
+			emptyslot.save();
+			let ans=await booking.find();
+
+
+			let newbooking=new booking({
+				booking_id:ans.length+1,
+				user_id:curr,
+				vehicle_id:curvehicle._id,
+				slot_id:emptyslot._id,
+				intime:new Date()
+			})
+			newbooking.save();
+			console.log(newbooking);
+			res.redirect("/stop");
+			}
+			else
+			{
+				res.send("slot unavailable");
+			}
+		}
+		else{
+			res.send("you already have a ongoing booking");
+		}	
+})
+
+
+app.post('/stop',async(req,res)=>{
+	let curr=cur[0]._id;
+	let curusername=cur[0].name;
+	let curbooking=await booking.findOne().where({ user_id:curr,outtime:""});
+	curbooking.outtime=new Date();
+	curbooking.save();
+	
+	let curslotid=curbooking.slot_id;
+	let curslot=await slot.findOne().where({_id:curslotid});
+	curslot.occupancy=false;
+	curslot.save();
+	let curvehicleid=curbooking.vehicle_id;
+	let curvehicle=await vehicle.findOne().where({_id:curvehicleid});
+	console.log(curbooking);
+	res.render("receipt",{booking:curbooking,username:curusername,slot:curslot,vehicle:curvehicle});
 	
 })
 
@@ -222,11 +320,11 @@ app.post('/bookslot',async(req,res)=>{
 else {
 console.log(allvehicles);
 }});
-user.find({},function(err,allusers){if(err){console.log("oops");}
+/*user.find({},function(err,allusers){if(err){console.log("oops");}
 else {
 console.log(allusers);
 }});*/
 
-app.listen('3006',()=>{
-	console.log("listening to port 3006")
+app.listen('3000',()=>{
+	console.log("listening to port 3000");
 })
