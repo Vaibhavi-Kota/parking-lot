@@ -16,10 +16,16 @@ router.post('/login',async(req,res)=>{
 		
 		let token=auth.generatetoken(user);
 		res.cookie('auth_token',token);
-		
+		if(user.emailid==="admin@gmail.com" && user.password==="adminkvvk")
+			{
+				res.send({
+			redirectURL:'/admin'
+		})
+			}
+		else{
 		res.send({
 			redirectURL:'/vehicles'
-		})
+		})}
 	}
 	else{
 		res.status(400);
@@ -38,7 +44,7 @@ router.post('/register',async(req,res)=>{
 			 emailid:email,
 			password:password,
 			name:name,
-			phoneno:phoneno
+			mobnum:phoneno
 			
 		})
 		await newUser.save();

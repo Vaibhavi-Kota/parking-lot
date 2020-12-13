@@ -133,7 +133,16 @@ else {
 console.log(Allslots);
 }});*/
 
+
 /*booking.remove({},function(err)
+		   {
+ 	if(err){console.log("oops");}
+ });
+user.remove({},function(err)
+		   {
+ 	if(err){console.log("oops");}
+ });
+vehicle.remove({},function(err)
 		   {
  	if(err){console.log("oops");}
  });*/
@@ -230,14 +239,73 @@ app.get('/receipt',(req,res)=>{
 	}
 })
 
+app.get('/admin',async(req,res)=>{
+	let token=req.cookies['auth_token'];
+		let someuser=auth.checktoken(token);
+		 let curr=someuser.userid;
+	let curuser=await user.findOne().where({_id:curr});
+	if(curuser.emailid==="admin@gmail.com" && curuser.password==="adminkvvk"){
+	
+	res.render("admin");}
+	else{
+		res.send("Only admin has access");
+	}
+	
+})
+app.get('/adminvehicles',async(req,res)=>
+	   {
+	let token=req.cookies['auth_token'];
+		let someuser=auth.checktoken(token);
+		 let curr=someuser.userid;
+	let curuser=await user.findOne().where({_id:curr});
+	if(curuser.emailid==="admin@gmail.com" && curuser.password==="adminkvvk"){
+	
+	vehicle.find({},async function(err,allvehicles){
+		await res.render("adminvehicles",{vehicles:allvehicles})
+});}
+	else{
+		res.send("Only admin has access");
+	}
+})
+app.get('/adminusers',async(req,res)=>
+	   {
+	let token=req.cookies['auth_token'];
+		let someuser=auth.checktoken(token);
+		 let curr=someuser.userid;
+	let curuser=await user.findOne().where({_id:curr});
+	if(curuser.emailid==="admin@gmail.com" && curuser.password==="adminkvvk"){
+	
+	user.find({},async function(err,allusers){
+		await res.render("adminusers",{users:allusers})
+});}
+	else{
+		res.send("Only admin has access");
+	}
+})
+app.get('/adminbookings',async(req,res)=>
+	   {
+	let token=req.cookies['auth_token'];
+		let someuser=auth.checktoken(token);
+		 let curr=someuser.userid;
+	let curuser=await user.findOne().where({_id:curr});
+	if(curuser.emailid==="admin@gmail.com" && curuser.password==="adminkvvk"){
+	
+	booking.find({},async function(err,allbookings){
+		await res.render("adminbookings",{bookings:allbookings})
+});}
+	else{
+		res.send("Only admin has access");
+	}
+})
+
 
 app.post('/addvehicle',async(req,res)=>{
 		let vehiclenumber=req.body.vehicleno;
 		let vehicletype=req.body.vehicletype;
 		let existingvehicle=await vehicle.find().where({vehiclenum:vehiclenumber});
 		let token=req.cookies['auth_token'];
-
-		
+		let someuser=auth.checktoken(token);
+		 let curr=someuser.userid;
 		let curuser=await user.findOne().where({_id:curr});
 		if(existingvehicle.length===0)
 			{
@@ -318,6 +386,8 @@ let someuser=auth.checktoken(token);
 	let curusername=curuser.name;
 	let curbooking=await booking.findOne().where({ user_id:curr,outtime:""});
 	curbooking.outtime=new Date();
+	let amount=await((curbooking.outtime.getTime()-curbooking.intime.getTime())/3600000)*10;
+	curbooking.amount=amount;
 	curbooking.save();
 	
 	let curslotid=curbooking.slot_id;
@@ -326,11 +396,14 @@ let someuser=auth.checktoken(token);
 	curslot.save();
 	let curvehicleid=curbooking.vehicle_id;
 	let curvehicle=await vehicle.findOne().where({_id:curvehicleid});
-	let amount=await((curbooking.outtime.getTime()-curbooking.intime.getTime())/3600000)*10;
+	
 	
 	setTimeout(function(){res.render("receipt",{booking:curbooking,username:curusername,slot:curslot,vehicle:curvehicle,amount:amount})},1000);
 	
 })
+
+
+
 
 
 

@@ -31,7 +31,8 @@ let bookingschema=new mongoose.Schema({
 	slot_id:{ type: Schema.Types.ObjectId, ref: 'slot' },
 	vehicle_id:{type: Schema.Types.ObjectId, ref: 'vehicle'},
 	intime:Date,
-	outtime:Date
+	outtime:Date,
+	amount:Number
 })
 
 
