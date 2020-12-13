@@ -3,8 +3,7 @@ let express=require('express');
 let router=express.Router();
 let auth=require("../controllers/auth");
 let cur=[];
-let num=[];
-let i=0;
+
 router.post('/login',async(req,res)=>{
 	let email=req.body.email;
 	let password=req.body.password;
@@ -12,9 +11,9 @@ router.post('/login',async(req,res)=>{
 	
 	if(user){
 		cur.push(user);
-		i++;
 		
-		num.push(i);
+		
+		
 		let token=auth.generatetoken(user);
 		res.cookie('auth_token',token);
 		
@@ -49,4 +48,4 @@ router.post('/register',async(req,res)=>{
 		res.send('rejected');
 	}
 })
-module.exports={router:router,cur:{cur},num:{num}};
+module.exports={router:router,cur:{cur}};

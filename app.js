@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost:27017/parking-lot', {
 });
 let usersRouter=require('./routes/users');
 let {cur}=usersRouter.cur;
-let {num}=usersRouter.num;
+
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -326,8 +326,9 @@ let someuser=auth.checktoken(token);
 	curslot.save();
 	let curvehicleid=curbooking.vehicle_id;
 	let curvehicle=await vehicle.findOne().where({_id:curvehicleid});
+	let amount=await((curbooking.outtime.getTime()-curbooking.intime.getTime())/3600000)*10;
 	
-	res.render("receipt",{booking:curbooking,username:curusername,slot:curslot,vehicle:curvehicle});
+	setTimeout(function(){res.render("receipt",{booking:curbooking,username:curusername,slot:curslot,vehicle:curvehicle,amount:amount})},1000);
 	
 })
 
