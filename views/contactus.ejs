@@ -34,44 +34,25 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			  <ul class="nav navbar-nav">
-				<li  class="active"><a href="/home">Home<span class="sr-only">(current)</span></a></li>
-				  
-				<li><a href="/login">Login</a></li>
-				<li class="dropdown">
-				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-				  <ul class="dropdown-menu">
-					<li><a href="#">Action</a></li>
-					<li><a href="#">Another action</a></li>
-					<li><a href="#">Something else here</a></li>
-					<li role="separator" class="divider"></li>
-					<li><a href="#">Separated link</a></li>
-					<li role="separator" class="divider"></li>
-					<li><a href="#">One more separated link</a></li>
-				  </ul>
-				</li>
+				<li><a href="/home">Home<span class="sr-only">(current)</span></a></li>
+				 <li><a href="/login">Login</a></li> 
+				<li><a href="/vehicles">Vehicles</a></li>
+				  <li><a href="/parkinglot">Parking Lot</a></li>
+				
 			  </ul>
 			  <ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Contact Us</a></li>
+				 <li><a href="/logout">Logout</a></li> 
+				<li class="active"><a href="/contactus">Contact Us</a></li>
 			  </ul>
 			</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
 		
-	<div class="container">
+		<div class="container">
+			<h1>
+				Contact us
+			</h1>
+		</div>
 		
-                            <form class="vehicle-register-form" method="POST" action=/addvehicle>
-                                <div class="form-group">
-                                    <label for="vehicle-no">Vehicle No</label>
-                                    <input type="String" name="vehicleno"class="form-control" id="vehicle-no" aria-describedby="emailHelp" 																placeholder="Enter vehicle no" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vehicle-type">Vehicle type</label>
-                                    <input type="number" name="vehicletype" class="form-control" id="vehicle-type" placeholder="enter vehicle type(2-wheeler/4-wheeler)" required>
-                                </div>
-                            
-                                <button type="submit" class="btn btn-primary">Register vehicle</button>
-                            </form>
-			
-	</div>
 	</body>
 </html>

@@ -52,27 +52,42 @@
 			  <tr>
 				  
 				<th>Booking ID</th>
-				<th>User ID</th>
-				  <th>Vehicle ID</th>
+				<th>User Name</th>
+				  <th>Vehicle Number</th>
 				  <th>Slot ID</th>
 				  <th>In-time</th>
 				  <th>Out-time</th>
 				  <th>Amount</th>
 				
 			  </tr>
+				
 			  
-				<%for(i=0;i<bookings.length;i++){%>
+				<%for(i=0;i<bookings.length;i++){%>	
 					<tr>
 						
 						<td><%=bookings[i].booking_id%></td>
-						<td><%=bookings[i].user_id%></td>
-						<td><%=bookings[i].vehicle_id%></td>
-						<td><%=bookings[i].slot_id%></td>
+						<%for(j=0;j<users.length;j++){%>
+									<%if(users[j]._id.toString()===bookings[i].user_id.toString()){%>	
+											<td><%=users[j].name%></td>
+											<%break%>
+										<%}}%>
+						<%for(j=0;j<vehicles.length;j++){%>
+									<%if(vehicles[j]._id.toString()===bookings[i].vehicle_id.toString()){%>	
+											<td><%=vehicles[j].vehiclenum%></td>
+											<%break%>
+										<%}}%>
+						<%for(j=0;j<slots.length;j++){%>
+									<%if(slots[j]._id.toString()===bookings[i].slot_id.toString()){%>	
+											<td><%=slots[j].slotid%></td>
+											<%break%>
+										<%}}%>
 						<td><%=bookings[i].intime%></td>
 						<td><%=bookings[i].outtime%></td>
 						<td><%=bookings[i].amount%></td>
 					</tr>
 				<%}%>
+				
+				
 			</table>
 		</div>
 		

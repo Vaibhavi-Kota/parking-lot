@@ -31,7 +31,6 @@ db.once("open",()=>{
 let vehicle=require("./modules/user").vehicle;
 let user=require("./modules/user").user;
 let booking=require("./modules/user").booking;
-
 /*let user1=new user({
 	id:1,
 	name:"Vaibhavi",
@@ -151,6 +150,18 @@ app.get('/',(req,res)=>
 	   {
 	res.render("home");
 })
+app.get('/contactus',(req,res)=>
+	   {
+	res.render("contactus");
+})
+app.get('/timer',(req,res)=>
+	   {
+	res.render("timer");
+})
+app.get('/continue',(req,res)=>
+	   {
+	res.render("continue");
+})
 app.get('/home',(req,res)=>
 	   {
 	res.render("home");
@@ -174,7 +185,7 @@ app.get('/parkinglot',(req,res)=>
 	if(token && auth.checktoken(token)){
 	res.render("parkinglot");}
 	else{
-		res.redirect("/login");
+		res.redirect("/continue");
 	}
 })
 
@@ -204,7 +215,7 @@ app.get('/vehicles',async(req,res)=>{
 	}
 	else{
 		
-		res.redirect("/login");
+		res.redirect("/continue");
 	}
 	
 })
@@ -215,17 +226,23 @@ app.get('/addvehicle',(req,res)=>{
 	if(token && auth.checktoken(token)){
 	res.render("addvehicle");}
 	else{
-		res.redirect("/login");
+		res.redirect("/continue");
 	}
 })
 
-app.get('/stop',(req,res)=>{
+app.get('/stop',async(req,res)=>{
 	let token=req.cookies['auth_token'];
 	if(token && auth.checktoken(token)){
-	res.render("stop");
+		let someuser=auth.checktoken(token);
+		 let curr=someuser.userid;
+		let curbooking=await booking.findOne().where({ user_id:curr,outtime:""});
+		let curslotid=curbooking.slot_id;
+	let curslot=await slot.findOne().where({_id:curslotid});
+		let allslots=await slot.find({});
+	res.render("stop",{slot:curslot,slots:allslots});
 	}
 	else{
-		res.redirect("/login");
+		res.redirect("/continue");
 	}
 })
 
@@ -235,13 +252,14 @@ app.get('/receipt',(req,res)=>{
 	res.render("receipt");
 	}
 	else{
-		res.redirect("/login");
+		res.redirect("/continue");
 	}
 })
 
 app.get('/admin',async(req,res)=>{
 	let token=req.cookies['auth_token'];
-		let someuser=auth.checktoken(token);
+	if(token && auth.checktoken(token)){
+	let someuser=auth.checktoken(token);
 		 let curr=someuser.userid;
 	let curuser=await user.findOne().where({_id:curr});
 	if(curuser.emailid==="admin@gmail.com" && curuser.password==="adminkvvk"){
@@ -250,11 +268,16 @@ app.get('/admin',async(req,res)=>{
 	else{
 		res.send("Only admin has access");
 	}
-	
+	}
+	else{
+		res.redirect("/continue");
+	}
+		
 })
 app.get('/adminvehicles',async(req,res)=>
 	   {
 	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
 		let someuser=auth.checktoken(token);
 		 let curr=someuser.userid;
 	let curuser=await user.findOne().where({_id:curr});
@@ -265,11 +288,16 @@ app.get('/adminvehicles',async(req,res)=>
 });}
 	else{
 		res.send("Only admin has access");
+	}}
+	else{
+		res.redirect("/continue");
 	}
+	
 })
 app.get('/adminusers',async(req,res)=>
 	   {
 	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
 		let someuser=auth.checktoken(token);
 		 let curr=someuser.userid;
 	let curuser=await user.findOne().where({_id:curr});
@@ -280,21 +308,32 @@ app.get('/adminusers',async(req,res)=>
 });}
 	else{
 		res.send("Only admin has access");
+	}}
+	else{
+		res.redirect("/continue");
 	}
 })
 app.get('/adminbookings',async(req,res)=>
 	   {
 	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
 		let someuser=auth.checktoken(token);
 		 let curr=someuser.userid;
 	let curuser=await user.findOne().where({_id:curr});
 	if(curuser.emailid==="admin@gmail.com" && curuser.password==="adminkvvk"){
 	
-	booking.find({},async function(err,allbookings){
-		await res.render("adminbookings",{bookings:allbookings})
-});}
+	let allbookings=await booking.find({});
+	let allusers=await user.find({});
+	let allslots=await slot.find({});
+	let allvehicles=await vehicle.find({});
+		
+	res.render("adminbookings",{bookings:allbookings,users:allusers,slots:allslots,vehicles:allvehicles});	
+	}
 	else{
 		res.send("Only admin has access");
+	}}
+	else{
+		res.redirect("/continue");
 	}
 })
 
@@ -368,11 +407,11 @@ app.post('/bookslot',async(req,res)=>{
 			}
 			else
 			{
-				res.send("slot unavailable");
+				res.send("Slot unavailable");
 			}
 		}
 		else{
-			res.send("you already have a ongoing booking");
+			res.send("You already have a ongoing booking");
 		}	
 })
 
