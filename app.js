@@ -13,12 +13,14 @@ mongoose.connect('mongodb://localhost:27017/parking-lot', {
 	useUnifiedTopology:true
 });
 let usersRouter=require('./routes/users');
+let predict=require('./routes/predict');
 let {cur}=usersRouter.cur;
 
 
 app.use(express.static('public'));
 app.use(express.json());
 app.use('/users',usersRouter.router);
+app.use('/pre',predict);
 app.use(bodyparser.urlencoded({extended:false})) ;
 app.use(bodyparser.json()) ;
 app.use(cookieparser()); 
@@ -179,11 +181,24 @@ app.get('/login',(req,res)=>
 		res.render("login");
 	}
 })
-app.get('/parkinglot',(req,res)=>
+app.get('/logout',(req,res)=>{
+	let token=req.cookies['auth_token'];
+	
+	if(token && auth.checktoken(token)){
+		
+		res.render("logout");
+		
+	}
+	else{
+		res.render("continue");
+	}
+})
+app.get('/parkinglot',async(req,res)=>
 	   {
 	let token=req.cookies['auth_token'];
 	if(token && auth.checktoken(token)){
-	res.render("parkinglot");}
+		let allslots=await slot.find({});
+	res.render("parkinglot",{slots:allslots});}
 	else{
 		res.redirect("/continue");
 	}
@@ -239,7 +254,8 @@ app.get('/stop',async(req,res)=>{
 		let curslotid=curbooking.slot_id;
 	let curslot=await slot.findOne().where({_id:curslotid});
 		let allslots=await slot.find({});
-	res.render("stop",{slot:curslot,slots:allslots});
+		let bintime=curbooking.intime;
+	res.render("stop",{slot:curslot,slots:allslots,intime:bintime});
 	}
 	else{
 		res.redirect("/continue");
@@ -336,7 +352,14 @@ app.get('/adminbookings',async(req,res)=>
 		res.redirect("/continue");
 	}
 })
-
+app.post('/logout',async(req,res)=>{
+	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
+		res.clearCookie("auth_token");
+	res.redirect("/home");
+	}
+	
+})
 
 app.post('/addvehicle',async(req,res)=>{
 		let vehiclenumber=req.body.vehicleno;
@@ -437,6 +460,7 @@ let someuser=auth.checktoken(token);
 	let curvehicle=await vehicle.findOne().where({_id:curvehicleid});
 	
 	
+	
 	setTimeout(function(){res.render("receipt",{booking:curbooking,username:curusername,slot:curslot,vehicle:curvehicle,amount:amount})},1000);
 	
 })
@@ -455,6 +479,6 @@ else {
 console.log(allusers);
 }});*/
 
-app.listen('3000',()=>{
-	console.log("listening to port 3000");
+app.listen('3001',()=>{
+	console.log("listening to port 3001");
 })
