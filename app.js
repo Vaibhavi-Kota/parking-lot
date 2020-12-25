@@ -168,13 +168,37 @@ app.get('/home',(req,res)=>
 	   {
 	res.render("home");
 })
-app.get('/login',(req,res)=>
+app.get('/login',async(req,res)=>
 	   {
 	let token=req.cookies['auth_token'];
 	
 	if(token && auth.checktoken(token)){
+		let someuser=auth.checktoken(token);
+		 let curr=someuser.userid;
+		let curuser=await user.findOne().where({_id:curr});
 		
-		res.render("vehicles");
+		
+		let vehiclearr=[];
+		 let vehi=curuser.vehicles;
+		
+		
+		let i;
+		for(i=0;i<vehi.length;i++)
+			{
+				let abc=await vehicle.findOne().where({_id:vehi[i]});
+				vehiclearr.push(abc);
+			}
+			
+				
+		
+		let curbooking=await booking.find().where({ user_id:curr,outtime:""});
+		if(curbooking.length===0)
+		{
+			res.render("vehicles",{cur:curuser,vehicles:vehiclearr});
+		}
+		else{
+			res.redirect("/stop");
+		}
 		
 	}
 	else{
@@ -244,7 +268,32 @@ app.get('/addvehicle',(req,res)=>{
 		res.redirect("/continue");
 	}
 })
-
+app.get('/mybookings',async(req,res)=>
+	   {
+	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
+		
+			let someuser=auth.checktoken(token);
+		 let curr=someuser.userid;
+		let curuser=await user.findOne().where({_id:curr});
+		
+		let userbookings=await booking.find().where({user_id:curr});
+		
+		let curname=curuser.name;
+		
+		
+	let allslots=await slot.find({});
+	let allvehicles=await vehicle.find({});
+		
+	res.render("mybookings",{bookings:userbookings,username:curname,slots:allslots,vehicles:allvehicles});
+		
+		
+	}
+	else{
+		
+		res.redirect("/continue");
+	}
+})
 app.get('/stop',async(req,res)=>{
 	let token=req.cookies['auth_token'];
 	if(token && auth.checktoken(token)){
@@ -278,7 +327,7 @@ app.get('/admin',async(req,res)=>{
 	let someuser=auth.checktoken(token);
 		 let curr=someuser.userid;
 	let curuser=await user.findOne().where({_id:curr});
-	if(curuser.emailid==="admin@gmail.com" && curuser.password==="adminkvvk"){
+	if(curuser.emailid==="admin@gmail.com"){
 	
 	res.render("admin");}
 	else{
@@ -297,7 +346,7 @@ app.get('/adminvehicles',async(req,res)=>
 		let someuser=auth.checktoken(token);
 		 let curr=someuser.userid;
 	let curuser=await user.findOne().where({_id:curr});
-	if(curuser.emailid==="admin@gmail.com" && curuser.password==="adminkvvk"){
+	if(curuser.emailid==="admin@gmail.com"){
 	
 	vehicle.find({},async function(err,allvehicles){
 		await res.render("adminvehicles",{vehicles:allvehicles})
@@ -317,7 +366,7 @@ app.get('/adminusers',async(req,res)=>
 		let someuser=auth.checktoken(token);
 		 let curr=someuser.userid;
 	let curuser=await user.findOne().where({_id:curr});
-	if(curuser.emailid==="admin@gmail.com" && curuser.password==="adminkvvk"){
+	if(curuser.emailid==="admin@gmail.com"){
 	
 	user.find({},async function(err,allusers){
 		await res.render("adminusers",{users:allusers})
@@ -336,7 +385,7 @@ app.get('/adminbookings',async(req,res)=>
 		let someuser=auth.checktoken(token);
 		 let curr=someuser.userid;
 	let curuser=await user.findOne().where({_id:curr});
-	if(curuser.emailid==="admin@gmail.com" && curuser.password==="adminkvvk"){
+	if(curuser.emailid==="admin@gmail.com"){
 	
 	let allbookings=await booking.find({});
 	let allusers=await user.find({});
@@ -362,7 +411,7 @@ app.post('/logout',async(req,res)=>{
 })
 
 app.post('/addvehicle',async(req,res)=>{
-		let vehiclenumber=req.body.vehicleno;
+		let vehiclenumber=req.body.vehicleno.toUpperCase();
 		let vehicletype=req.body.vehicletype;
 		let existingvehicle=await vehicle.find().where({vehiclenum:vehiclenumber});
 		let token=req.cookies['auth_token'];
@@ -458,7 +507,13 @@ let someuser=auth.checktoken(token);
 	curslot.save();
 	let curvehicleid=curbooking.vehicle_id;
 	let curvehicle=await vehicle.findOne().where({_id:curvehicleid});
-	
+	const PDFDocument = require('pdfkit');
+	const fs = require('fs');
+
+	let pdfDoc = new PDFDocument;
+	pdfDoc.pipe(fs.createWriteStream('SampleDocument.pdf'));
+	pdfDoc.text("My Sarath PDF Document");
+	pdfDoc.end();
 	
 	
 	setTimeout(function(){res.render("receipt",{booking:curbooking,username:curusername,slot:curslot,vehicle:curvehicle,amount:amount})},1000);
@@ -479,6 +534,6 @@ else {
 console.log(allusers);
 }});*/
 
-app.listen('3001',()=>{
-	console.log("listening to port 3001");
+app.listen('3000',()=>{
+	console.log("listening to port 3000");
 })
