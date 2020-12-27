@@ -1,0 +1,32 @@
+body::after {
+			  content: "";
+			  background: url(https://images.unsplash.com/photo-1506521781263-d8422e82f27a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8cGFya2luZyUyMGxvdHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80);
+				 height: 100%;
+
+ position: fixed;
+  top: 0; 
+  left: 0; 
+	background-size:cover;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+				
+			  
+			  
+			  z-index: -1;    
+
+}
+
+.welcome{
+       position: relative;
+       text-align: center;
+       top: 300px;
+       color: white;
+       
+       font-weight: 20px;
+       
+   }
+.welcome h1{
+	font-size:80px;
+}

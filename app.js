@@ -217,6 +217,18 @@ app.get('/logout',(req,res)=>{
 		res.render("continue");
 	}
 })
+app.get('/adminlogout',(req,res)=>{
+	let token=req.cookies['auth_token'];
+	
+	if(token && auth.checktoken(token)){
+		
+		res.render("adminlogout");
+		
+	}
+	else{
+		res.render("continue");
+	}
+})
 app.get('/parkinglot',async(req,res)=>
 	   {
 	let token=req.cookies['auth_token'];
@@ -227,7 +239,16 @@ app.get('/parkinglot',async(req,res)=>
 		res.redirect("/continue");
 	}
 })
-
+app.get('/adminparkinglot',async(req,res)=>
+	   {
+	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
+		let allslots=await slot.find({});
+	res.render("adminparkinglot",{slots:allslots});}
+	else{
+		res.redirect("/continue");
+	}
+})
 app.get('/vehicles',async(req,res)=>{
 	let token=req.cookies['auth_token'];
 	if(token && auth.checktoken(token)){
@@ -409,6 +430,15 @@ app.post('/logout',async(req,res)=>{
 	}
 	
 })
+app.post('/adminlogout',async(req,res)=>{
+	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
+		res.clearCookie("auth_token");
+	res.redirect("/home");
+	}
+	
+})
+
 
 app.post('/addvehicle',async(req,res)=>{
 		let vehiclenumber=req.body.vehicleno.toUpperCase();
@@ -497,7 +527,32 @@ let someuser=auth.checktoken(token);
 	let curusername=curuser.name;
 	let curbooking=await booking.findOne().where({ user_id:curr,outtime:""});
 	curbooking.outtime=new Date();
-	let amount=await((curbooking.outtime.getTime()-curbooking.intime.getTime())/3600000)*10;
+	let curvehicleid=curbooking.vehicle_id;
+	let curvehicle=await vehicle.findOne().where({_id:curvehicleid});
+	var amount;
+	if(curvehicle.type===2)
+	{
+		let bill=await(Math.floor((curbooking.outtime.getTime()-curbooking.intime.getTime())/3600000));
+		if(bill==0)
+		{
+			amount=10;
+		}
+		else{
+			amount=(bill+1)*10;
+		}
+	}
+	if(curvehicle.type===4)
+	{
+		let bill=await(Math.floor((curbooking.outtime.getTime()-curbooking.intime.getTime())/3600000));
+		if(bill==0)
+		{
+			amount=20;
+		}
+		else{
+			amount=(bill+1)*20;
+		}
+	}
+	
 	curbooking.amount=amount;
 	curbooking.save();
 	
@@ -505,8 +560,7 @@ let someuser=auth.checktoken(token);
 	let curslot=await slot.findOne().where({_id:curslotid});
 	curslot.occupancy=false;
 	curslot.save();
-	let curvehicleid=curbooking.vehicle_id;
-	let curvehicle=await vehicle.findOne().where({_id:curvehicleid});
+	
 	const PDFDocument = require('pdfkit');
 	const fs = require('fs');
 
@@ -524,7 +578,6 @@ let someuser=auth.checktoken(token);
 
 
 
-
 /*vehicle.find({},function(err,allvehicles){if(err){console.log("oops");}
 else {
 console.log(allvehicles);
@@ -534,6 +587,6 @@ else {
 console.log(allusers);
 }});*/
 
-app.listen('3000',()=>{
-	console.log("listening to port 3000");
+app.listen('3001',()=>{
+	console.log("listening to port 3001");
 })

@@ -4,11 +4,10 @@
 		<meta charset="utf-8">
 		<title>Admin</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../css/login.css">
+<link rel="stylesheet" href="../css/login.css">
 
 		<link rel="stylesheet" href="../css/table.css">
 		<link rel="stylesheet" href="../css/nav.css">
-
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -40,41 +39,27 @@
 			  <ul class="nav navbar-nav">
 				<li><a href="/adminusers">Users<span class="sr-only">(current)</span></a></li>
 				  
-				<li class="active"><a href="/adminvehicles">Vehicles</a></li>
+				<li><a href="/adminvehicles">Vehicles</a></li>
 				<li><a href="/adminbookings">Bookings</a></li>
 				  <li><a href="/adminparkinglot">Parking Lot</a></li>
 			  </ul>
-			  <ul class="nav navbar-nav navbar-right">
-				  <li><a href="/pre">Stats</a></li>
-				 <li><a href="/adminlogout">Logout</a></li> 
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/pre">Stats</a></li>
+				 <li class="active"><a href="/adminlogout">Logout</a></li> 
 				
 			  </ul>
+			  
 			</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
 		
 		<div class="container">
-			<h1>
-				Vehicles
-			</h1>
-			<table style="width:100%">
-			  <tr>
-				  <th>S.No</th>
-				<th>Vehicle Number</th>
-				<th>Vehicle type(2 wheeler/4 wheeler)</th>
-				  <th>Vehicle ID</th>
-				
-			  </tr>
-			  
-				<%for(i=0;i<vehicles.length;i++){%>
-					<tr>
-						<td><%=i+1%></td>
-						<td><%=vehicles[i].vehiclenum%></td>
-						<td><%=vehicles[i].type%></td>
-						<td><%=vehicles[i]._id%></td>
-					</tr>
-				<%}%>
-			</table>
+			<h3>
+				Are you sure you want to logout?
+			</h3>
+			<form method="POST" action=/adminlogout>
+                <button type="submit" class="btn btn-primary">Logout</button>
+            </form>
 		</div>
 		
 	</body>

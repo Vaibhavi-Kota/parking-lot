@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
-		<title>End Parking</title>
+		<meta charset="utf-8">
+		<title>Parking Lot</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../css/login.css">
 
@@ -38,39 +38,29 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			  <ul class="nav navbar-nav">
-				<li><a href="/home">Home<span class="sr-only">(current)</span></a></li>
-				 <li><a href="/login">Login</a></li> 
-				<li><a href="/vehicles">Vehicles</a></li>
-				  <li><a href="/mybookings">My Bookings</a></li>
-				  <li><a href="/parkinglot">Parking Lot</a></li>
+				<li><a href="/adminusers">Users<span class="sr-only">(current)</span></a></li>
+				  
+				<li><a href="/adminvehicles">Vehicles</a></li>
+				<li><a href="/adminbookings">Bookings</a></li>
+				  <li class="active"><a href="/adminparkinglot">Parking Lot</a></li>
+			  </ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/pre">Stats</a></li>
+				 <li><a href="/adminlogout">Logout</a></li> 
 				
 			  </ul>
-			  <ul class="nav navbar-nav navbar-right">
-				 
-				 <li><a href="/logout">Logout</a></li> 
-				
 			  
-				<li><a href="/contactus">Contact Us</a></li>
-			  </ul>
 			</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
 		
 		<div class="container">
-			<div>
-				<h1>
-					Your slot started!!
-				</h1>
-				<h3>
-					<strong>Slot Number: <%=slot.slotid%></strong>
-				</h3>
-				 
-				
-					
-			</div>
+			<h1>
+				Parking Lot
+			</h1>
 			
-			<!--parking lot-->
-			<div style="display:flex;margin-bottom:20px;">
+			
+			<div style="display:flex;">
 				<div style="height:370px;width:62%;border:3px solid black;">
 					<div class="row" style="display:flex;flex-direction:row;">
 						<%for(i=1;i<=7;i++){%>
@@ -144,9 +134,8 @@
 					</div>
 				</div>	
 			</div>
-			<form method="POST" action=/stop>
-                <button type="submit" class="btn btn-primary">End parking</button>
-            </form>
+				
+			
 		</div>
 		
 	</body>

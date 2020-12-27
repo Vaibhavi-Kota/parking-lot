@@ -59,9 +59,7 @@ router.post('/register',async(req,res)=>{
 			
 		})
 		await newUser.save();
-		res.send({
-				redirectURL:'/login'
-			})
+		res.send("done!! you can login now.");
 	}
 	else{
 		res.send('rejected');

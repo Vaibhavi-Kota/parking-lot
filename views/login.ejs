@@ -4,6 +4,10 @@
 		<meta charset="utf-8">
 		<title>Login</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/login.css">
+
+		
+		<link rel="stylesheet" href="../css/nav.css">
 
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,7 +20,7 @@
 	<body>
 		
 		<!--header-->
-		<nav class="navbar navbar-inverse">
+		<nav class="navbar">
 		  <div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -55,8 +59,8 @@
                     <h1>Login Page</h1>
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item active">
-                            <a class="nav-link active" id="sign-in-tab" data-toggle="tab" href="#sight-in" role="tab" aria-controls="sing-in" aria-selected="true">Sign In</a>
+                        <li class="nav-item active loginact">
+                            <a class="nav-link" id="sign-in-tab" data-toggle="tab" href="#sight-in" role="tab" aria-controls="sing-in" aria-selected="true">Sign In</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
@@ -64,7 +68,7 @@
                         
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade active in" id="sight-in" role="tabpanel" aria-labelledby="sight-in-tab">
+                        <div class="tab-pane fade active in loginact" id="sight-in" role="tabpanel" aria-labelledby="sight-in-tab">
                             <form class="sign-in-form">
                                 <div class="form-group" style="padding-top:10px;">
                                     <label for="sign-in-email">Email address</label>

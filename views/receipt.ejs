@@ -4,6 +4,11 @@
 		<meta charset="utf-8">
 		<title>Receipt</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/login.css">
+
+		<link rel="stylesheet" href="../css/table.css">
+		<link rel="stylesheet" href="../css/nav.css">
+		<link rel="stylesheet" href="../css/receipt.css">
 
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,7 +21,7 @@
 	<body>
 		
 		<!--header-->
-		<nav class="navbar navbar-inverse">
+		<nav class="navbar">
 		  <div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -53,32 +58,32 @@
 			<h1>
 				Booking completed!!!
 			</h1>
-			<div style="height:500px;width:500px;border:1px solid grey;">
-				<h3 class="text-center">
+			<div style="height:450px;width:450px;border:3px solid black;background:#ebe2e1">
+				<h2 class="text-center">
 					Receipt
-				</h3>
-				<div class="container">
+				</h2>
+				<div class="container" style="width:80%;">
 					
 					<p>
-						Booking ID: <%=booking.booking_id%>
+						<strong>Booking ID</strong>: <%=booking.booking_id%>
 					</p>
 					<p>
-						User Name: <%=username%>
+						<strong>User Name</strong>: <%=username%>
 					</p>
 					<p>
-						Vehicle Number: <%=vehicle.vehiclenum%>
+						<strong>Vehicle Number</strong>: <%=vehicle.vehiclenum%>
 					</p>
 					<p>
-						Slot: <%=slot.slotid%>
+						<strong>Slot</strong>: <%=slot.slotid%>
 					</p>
 					<p>
-						In-time: <%=booking.intime%>
+						<strong>In-time</strong>: <%=booking.intime%>
 					</p>
 					<p>
-						Out-time: <%=booking.outtime%>
+						<strong>Out-time</strong>: <%=booking.outtime%>
 					</p>
 					<p>
-						Amount to be paid: <%=amount%>
+						<strong>Amount to be paid</strong>: <%=amount%>
 					</p>
 				</div>
 				

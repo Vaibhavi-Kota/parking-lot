@@ -1,0 +1,19 @@
+.navbar{
+	background:whitesmoke;
+}
+.navbar a{
+	color:black;
+}
+.navbar li a:hover{
+	background:grey;
+	color:white;
+}
+
+
+.active a{
+	background:black;
+	color:white;
+}
+.active a:hover{
+	color:black;
+}

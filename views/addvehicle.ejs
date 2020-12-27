@@ -4,6 +4,8 @@
 		<meta charset="utf-8">
 		<title>Home</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/login.css">
+		<link rel="stylesheet" href="../css/nav.css">
 
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,7 +18,7 @@
 	<body>
 		
 		<!--header-->
-		<nav class="navbar navbar-inverse">
+		<nav class="navbar">
 		  <div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -36,7 +38,7 @@
 			  <ul class="nav navbar-nav">
 				<li><a href="/home">Home<span class="sr-only">(current)</span></a></li>
 				  
-				<li><a href="/login">Login</a></li>
+				<li><a href="/vehicles">Vehicles</a></li>
 				
 			  </ul>
 			  <ul class="nav navbar-nav navbar-right">
@@ -54,10 +56,19 @@
                                     <label for="vehicle-no">Vehicle No</label>
                                     <input type="String" name="vehicleno"class="form-control" id="vehicle-no" aria-describedby="emailHelp" 																placeholder="Enter vehicle no" autocapitalize="characters" required>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="vehicle-type">Vehicle type</label>
                                     <input type="number" name="vehicletype" class="form-control" id="vehicle-type" placeholder="enter vehicle type(2-wheeler/4-wheeler)" required>
-                                </div>
+								
+                                </div> -->
+								
+								<div class="form-group">
+								<label for="vehicle-type" style="margin:0 4px 0 0">Vehicle type</label>
+								<select name="vehicletype" id="vehicle-type">
+									<option value="2">2</option>
+									<option value="4">4</option>
+								</select>
+								</div>
                             
                                 <button type="submit" class="btn btn-primary">Register vehicle</button>
                             </form>
