@@ -33,106 +33,17 @@ db.once("open",()=>{
 let vehicle=require("./modules/user").vehicle;
 let user=require("./modules/user").user;
 let booking=require("./modules/user").booking;
-/*let user1=new user({
-	id:1,
-	name:"Vaibhavi",
-	mobnum:"123456789",
-	emailid:"kotavaibhu.2000@gmail.com"
-})
-user1.save();*/
-/*user.remove({},function(err)
-		   {
-	if(err){console.log("oops");}
-});*/
+
 /*user.find({}, function (err,Allusers){if(err){console.log("oops");}
 else {
 console.log(Allusers);
 }
 });*/
 let slot=require("./modules/user").slot;
-/*let slot1=new slot({
-	slotid:1,
-	occupancy:false
-})
-slot1.save();
-let slot2=new slot({
-	slotid:2,
-	occupancy:false
-})
-slot2.save();
-let slot3=new slot({
-	slotid:3,
-	occupancy:false
-})
-slot3.save();
-let slot4=new slot({
-	slotid:4,
-	occupancy:false
-})
-slot4.save();
-let slot5=new slot({
-	slotid:5,
-	occupancy:false
-})
-slot5.save();
-let slot6=new slot({
-	slotid:6,
-	occupancy:false
-})
-slot6.save();
-let slot7=new slot({
-	slotid:7,
-	occupancy:false
-})
-slot7.save();
-let slot8=new slot({
-	slotid:8,
-	occupancy:false
-})
-slot8.save();
-let slot9=new slot({
-	slotid:9,
-	occupancy:false
-})
-slot9.save();
-let slot10=new slot({
-	slotid:10,
-	occupancy:false
-})
-slot10.save();
-let slot11=new slot({
-	slotid:11,
-	occupancy:false
-})
-slot11.save();
-let slot12=new slot({
-	slotid:12,
-	occupancy:false
-})
-slot12.save();
-let slot13=new slot({
-	slotid:13,
-	occupancy:false
-})
-slot13.save();
-let slot14=new slot({
-	slotid:14,
-	occupancy:false
-})
-slot14.save();
-let slot15=new slot({
-	slotid:15,
-	occupancy:false
-})
-slot15.save();*/
-/*slot.remove({},function(err)
-		   {
-	if(err){console.log("oops");}
-});*/
-/*slot.find({}, function (err,Allslots){if(err){console.log("oops");}
+slot.find({}, function (err,Allslots){if(err){console.log("oops");}
 else {
 console.log(Allslots);
-}});*/
+}});
 
 
 /*booking.remove({},function(err)
@@ -587,6 +498,6 @@ else {
 console.log(allusers);
 }});*/
 
-app.listen('3001',()=>{
-	console.log("listening to port 3001");
+app.listen('3000',()=>{
+	console.log("listening to port 3000");
 })

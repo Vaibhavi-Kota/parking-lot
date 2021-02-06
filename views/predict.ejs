@@ -4,10 +4,12 @@
 		<meta charset="utf-8">
 		<title>Stats</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../css/login.css">
+		
+		
 
 		
 		<link rel="stylesheet" href="../css/nav.css">
+		<link rel="stylesheet" href="../css/predict.css">
 
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -67,7 +69,7 @@
 			
 			</div>
 		<canvas id="linechart" height="30" width="50" ></canvas>
-		<h3 style="text-align:center;">       x-axis: No of Day         y-axis:Amount in Rs</h3>
+		
 		</div>
 		<!-- <script src="js/plot.js"></script>  -->
 		 
@@ -79,33 +81,61 @@
 		<script>
 
 var speedData = {
+	
     labels: <%- JSON.stringify(X) ;%> ,
     datasets: [{
-      label: "Amount graph",
-      data: <%- JSON.stringify(Y) ;%> ,
-    }]
+	  label: "Amount graph",
+	  
+	    data: <%- JSON.stringify(Y) ;%> ,
+	  	}]
+	
   };
    
   var chartOptions = {
+	
     legend: {
       display: true,
       position: 'top',
       labels: {
         boxWidth: 80,
-        fontColor: 'black'
-      }
+		fontColor: 'black',
+		  }
 	},
 	scales:{
+		xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Day number'
+						}
+					}],
 		yAxes:[{
+			
 			ticks:{
 				beginAtZero:true
-			}
-		}],
-		xAxes:[{
-			ticks:{
-				beginAtZero:true
-			}
-		}]
+			}},
+			{
+						scaleLabel: {
+						display: true,
+						labelString: 'Amount'
+					}
+				}
+			
+			
+			],
+		// yAxes: [{
+		// 					scaleLabel: {
+		// 					display: true,
+		// 					labelString: 'Amount'
+		// 				}
+		// 			},
+		// 		{
+		// 			ticks:{
+		//  		beginAtZero:true
+		// 				}
+					
+		// 		}]
+		
 	}
   };
 var myChart = new Chart(linechart, {

@@ -58,37 +58,66 @@
 			<h1>
 				Booking completed!!!
 			</h1>
-			<div style="height:450px;width:450px;border:3px solid black;background:#ebe2e1">
-				<h2 class="text-center">
-					Receipt
-				</h2>
-				<div class="container" style="width:80%;">
-					
-					<p>
-						<strong>Booking ID</strong>: <%=booking.booking_id%>
-					</p>
-					<p>
-						<strong>User Name</strong>: <%=username%>
-					</p>
-					<p>
-						<strong>Vehicle Number</strong>: <%=vehicle.vehiclenum%>
-					</p>
-					<p>
-						<strong>Slot</strong>: <%=slot.slotid%>
-					</p>
-					<p>
-						<strong>In-time</strong>: <%=booking.intime%>
-					</p>
-					<p>
-						<strong>Out-time</strong>: <%=booking.outtime%>
-					</p>
-					<p>
-						<strong>Amount to be paid</strong>: <%=amount%>
-					</p>
+			<div style="display:flex;">
+				<div style="height:450px;width:450px;border:3px solid black;background:#ebe2e1">
+					<h2 class="text-center">
+						Receipt
+					</h2>
+					<div class="container" style="width:80%;">
+
+						<p>
+							<strong>Booking ID</strong>: <%=booking.booking_id%>
+						</p>
+						<p>
+							<strong>User Name</strong>: <%=username%>
+						</p>
+						<p>
+							<strong>Vehicle Number</strong>: <%=vehicle.vehiclenum%>
+						</p>
+						<p>
+							<strong>Slot</strong>: <%=slot.slotid%>
+						</p>
+						<p>
+							<strong>In-time</strong>: <%=booking.intime%>
+						</p>
+						<p>
+							<strong>Out-time</strong>: <%=booking.outtime%>
+						</p>
+						<p>
+							<strong>Amount to be paid</strong>: <%=amount%>
+						</p>
+					</div>
 				</div>
+					<div style="display:flex;margin:150px 0 0 100px;">
+						<div style="border: 0.5px solid black;height:150px;">
+							<h3 style="text-decoration:underline;">
+								2 Wheeler
+							</h3>
+							<p>
+								Base Charge : 10 rs
+							</p>
+							<p>
+								Per one hour = 10rs
+							</p>
+
+						</div>
+						<div style="border: 0.5px solid black;margin-left:50px;height:150px;">
+							<h3 style="text-decoration:underline;">
+								4 Wheeler
+							</h3>
+							<p>
+								Base Charge : 20 rs
+							</p>
+							<p>
+								Per one hour = 10rs
+							</p>
+
+						</div>
+					</div>
+			</div>
 				
 			</div>
-		</div>
+		
 		
 	</body>
 </html>

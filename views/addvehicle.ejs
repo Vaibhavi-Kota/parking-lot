@@ -54,14 +54,8 @@
                             <form class="vehicle-register-form" method="POST" action=/addvehicle>
                                 <div class="form-group">
                                     <label for="vehicle-no">Vehicle No</label>
-                                    <input type="String" name="vehicleno"class="form-control" id="vehicle-no" aria-describedby="emailHelp" 																placeholder="Enter vehicle no" autocapitalize="characters" required>
-                                </div>
-                                <!-- <div class="form-group">
-                                    <label for="vehicle-type">Vehicle type</label>
-                                    <input type="number" name="vehicletype" class="form-control" id="vehicle-type" placeholder="enter vehicle type(2-wheeler/4-wheeler)" required>
-								
-                                </div> -->
-								
+                                    <input type="String" name="vehicleno"class="form-control" id="vehicle-no" aria-describedby="emailHelp" 		 pattern="([A-Z]{2})([0-9]{2})([A-Z]{2})([0-9]{4})"														placeholder="Enter vehicle no" autocapitalize="characters" required>
+                                </div>								
 								<div class="form-group">
 								<label for="vehicle-type" style="margin:0 4px 0 0">Vehicle type</label>
 								<select name="vehicletype" id="vehicle-type">

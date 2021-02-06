@@ -1,18 +1,13 @@
 
-			body::after {
-			  content: "";
-			  background: url(https://images.unsplash.com/photo-1506521781263-d8422e82f27a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8cGFya2luZyUyMGxvdHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80);
-				 height: 100%;
-
- position: fixed; 
-  top: 0; 
-  left: 0; 
-
-  /* Preserve aspet ratio */
-  min-width: 100%;
-  min-height: 100%;
-				
-			  opacity: 0.5;
-			  
-			  z-index: -1;   
-			}
+body::after {
+	content: "";
+	 background: url(https://images.unsplash.com/photo-1506521781263-d8422e82f27a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8cGFya2luZyUyMGxvdHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80);
+	 height: 100%;
+	position: fixed; 
+	  top: 0; 
+	  left: 0; 
+	 min-width: 100%;
+	min-height: 100%;
+	 opacity: 0.3;
+	z-index: -1;   
+}

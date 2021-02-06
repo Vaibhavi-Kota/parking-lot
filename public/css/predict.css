@@ -1,0 +1,17 @@
+body::after {
+    content: "";
+    /* background: url("../images/bg1.jpg"); */
+       height: 100%;
+
+position: fixed; 
+top: 0; 
+left: 0; 
+
+/* Preserve aspet ratio */
+min-width: 100%;
+min-height: 100%;
+      
+    opacity: 0.5;
+    
+    z-index: -1;   
+  }
