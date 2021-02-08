@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Select Slot</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/login.css">
+
+		<link rel="stylesheet" href="../css/table.css">
+		<link rel="stylesheet" href="../css/nav.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	</head>
+	
+	
+	<body>
+		
+		<!--header-->
+		<nav class="navbar">
+		  <div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="#"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bicycle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+		  <path fill-rule="evenodd" d="M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5zm1.5 2.443l-.508.814c.5.444.85 1.054.967 1.743h1.139L5.5 6.943zM8 9.057L9.598 6.5H6.402L8 9.057zM4.937 9.5a1.997 1.997 0 0 0-.487-.877l-.548.877h1.035zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765l1.027-1.643zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53L11.55 8.623z"/>
+		</svg></a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  <ul class="nav navbar-nav">
+				<li><a href="/home">Home<span class="sr-only">(current)</span></a></li>
+				 <li><a href="/login">Login</a></li> 
+				<li><a href="/vehicles">Vehicles</a></li>
+				  <li><a href="/mybookings">My Bookings</a></li>
+				  <li class="active"><a href="/parkinglot">Parking Lot</a></li>
+				
+			  </ul>
+			  <ul class="nav navbar-nav navbar-right">
+				 <li><a href="/logout">Logout</a></li> 
+				<li><a href="/contactus">Contact Us</a></li>
+			  </ul>
+			</div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
+		
+		<div class="container">
+			<h1 style="text-decoration:underline;margin:0 0 20px 0;">
+				Parking Lot
+			</h1>
+			<form class="select-slot-form" method="POST" action=/selectslot>
+				
+				<div style="display:flex;">
+				<div style="height:370px;width:62%;border:3px solid black;">
+					
+					<div class="row" style="display:flex;flex-direction:row;">
+						<%for(i=1;i<=7;i++){%>
+						<%if(!slots[i-1].occupancy){%>
+						 <div class="btn-<%=i%>" style="height:80px;width:60px;background:#2cc951;margin:10px 0 0 30px;">
+							<input type="radio"  name="slotno" value="<%=i%>">
+							 <%=i%>
+						</div>
+						<%}else{%>
+
+						<div class="btn-<%=i%>" style="height:100px;width:100px;padding:10px 0 0 30px;">
+							<button style="height:80px;width:60px;background:grey;" disabled>
+								<%=i%>
+							</button>
+						</div>
+						<%}}%>
+
+					</div>
+					<div class="btn-8" style="height:100px;width:100px;padding:0 0 0 585px;margin:25px 0 25px 0">
+
+						<%if(!slots[7].occupancy){%>
+						 <div class="btn-<%=i%>" style="height:80px;width:60px;background:#2cc951;margin:10px 0 0 30px;">
+							
+							 <input type="radio"  name="slotno" value="<%=i%>">
+							 8
+						</div>
+						<%}else{%>
+
+						<div class="btn-<%=i%>" style="height:100px;width:100px;padding:10px 0 0 30px;">
+							<button style="height:80px;width:60px;background:grey;" disabled>
+								8
+							</button>
+						</div>
+						<%}%>
+					</div>
+					<div class="row" style="display:flex;flex-direction:row;padding0 0 0 0;">
+						<%for(i=9;i<=15;i++){%>
+						<%if(!slots[i-1].occupancy){%>
+						 <div class="btn-<%=i%>" style="height:80px;width:60px;background:#2cc951;margin:10px 0 0 30px;" >
+							<input type="radio"  name="slotno" value="<%=i%>">
+							<%=i%>
+						</div>
+						<%}else{%>
+
+						<div class="btn-<%=i%>" style="height:100px;width:100px;padding:10px 0 0 30px;">
+							<button style="height:80px;width:60px;background:grey;" disabled>
+								<%=i%>
+							</button>
+						</div>
+						<%}}%>					
+					</div>
+				</div>
+					</div>
+				<div style="padding:5px 0 20px 0;">
+						<button type="submit" class="btn btn-primary">Book slot</button>
+					</div>
+			</form>
+			
+				<div style="padding:10px;border:1.5px solid black;width:15%;height:20%;margin-left:100px;">
+					<div style="display:flex; text-align:center;">
+						<div style="height:30px;width:45px;background:#2cc951;border:0.5px solid black;">
+
+						</div>
+						<p style="text-align:center;font-size:15px;margin-left:20px;color:black;">
+							Vacant
+						</p>
+					</div>
+					<div style="display:flex; text-align:center;margin:10px 0 0 0;">
+						<div style="height:30px;width:45px;background:grey;border:0.5px solid black;">
+
+						</div>
+						<p style="text-align:center;font-size:15px;margin-left:20px;color:black;">
+							Occupied
+						</p>
+					</div>
+				</div>	
+			
+			
+			
+		</div>
+		
+	</body>
+</html>

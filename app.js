@@ -40,11 +40,11 @@ console.log(Allusers);
 }
 });*/
 let slot=require("./modules/user").slot;
-slot.find({}, function (err,Allslots){if(err){console.log("oops");}
+/*slot.find({}, function (err,Allslots){if(err){console.log("oops");}
 else {
 console.log(Allslots);
 }});
-
+*/
 
 /*booking.remove({},function(err)
 		   {
@@ -67,10 +67,7 @@ app.get('/contactus',(req,res)=>
 	   {
 	res.render("contactus");
 })
-app.get('/timer',(req,res)=>
-	   {
-	res.render("timer");
-})
+
 app.get('/continue',(req,res)=>
 	   {
 	res.render("continue");
@@ -78,6 +75,16 @@ app.get('/continue',(req,res)=>
 app.get('/home',(req,res)=>
 	   {
 	res.render("home");
+})
+app.get('/selectslot',async(req,res)=>
+	   {
+	let token=req.cookies['auth_token'];
+	if(token && auth.checktoken(token)){
+		let allslots=await slot.find({});
+	res.render("selectslot",{slots:allslots});}
+	else{
+		res.redirect("/continue");
+	}
 })
 app.get('/login',async(req,res)=>
 	   {
@@ -310,6 +317,7 @@ app.get('/adminusers',async(req,res)=>
 		res.redirect("/continue");
 	}
 })
+
 app.get('/adminbookings',async(req,res)=>
 	   {
 	let token=req.cookies['auth_token'];
@@ -317,6 +325,7 @@ app.get('/adminbookings',async(req,res)=>
 		let someuser=auth.checktoken(token);
 		 let curr=someuser.userid;
 	let curuser=await user.findOne().where({_id:curr});
+	
 	if(curuser.emailid==="admin@gmail.com"){
 	
 	let allbookings=await booking.find({});
@@ -399,11 +408,7 @@ app.post('/bookslot',async(req,res)=>{
 		if(curbooking.length===0)
 		{
 
-			let emptyslot=await slot.findOne().where({occupancy:false});
-			if(emptyslot)
-			{
-			emptyslot.occupancy=true;
-			emptyslot.save();
+			
 			let ans=await booking.find();
 
 
@@ -411,24 +416,39 @@ app.post('/bookslot',async(req,res)=>{
 				booking_id:ans.length+1,
 				user_id:curr,
 				vehicle_id:curvehicle._id,
-				slot_id:emptyslot._id,
-				intime:new Date()
+				
 			})
 			newbooking.save();
 			
-			res.redirect("/stop");
-			}
-			else
-			{
-				res.send("Slot unavailable");
-			}
+			res.redirect("/selectslot");
+			
+			
 		}
 		else{
 			res.send("You already have a ongoing booking");
 		}	
 })
 
-
+app.post('/selectslot',async(req,res)=>{
+		let slotnum=req.body.slotno;
+		let token=req.cookies['auth_token'];
+let someuser=auth.checktoken(token);
+		 let curr=someuser.userid;
+		
+		let curuser=await user.findOne().where({_id:curr});
+	
+	let curbooking=await booking.findOne().where({ user_id:curr,intime:""});
+	curbooking.intime=new Date();
+	let curslot=await slot.findOne().where({slotid:slotnum});
+	curslot.occupancy=true;
+	curslot.save();
+	let selectedslot_id= await curslot._id;
+	curbooking.slot_id=selectedslot_id;
+	curbooking.save();
+	res.redirect("/stop");
+	
+	
+})
 app.post('/stop',async(req,res)=>{
 	let token=req.cookies['auth_token'];
 let someuser=auth.checktoken(token);
@@ -486,9 +506,28 @@ let someuser=auth.checktoken(token);
 })
 
 
-
-
-
+/*booking.findOne().sort('-amount').select('booking_id intime amount').exec(function(err,data){
+	if(err) throw err;
+	console.log(data);
+})*/
+/*booking.find().where('intime').gt("2021-01-03T14:43:33.531Z").lt("2021-02-03T14:43:33.531Z").select('booking_id intime').exec(function(err,data){
+	if(err) throw err;
+	console.log(data);
+})*/
+/*booking.aggregate([
+	{$lookup:{
+	  from: "booking", //or Races.collection.name
+	  localField: "_id",
+	  foreignField: "user_id",
+	  as: "booking"
+	}},
+	{$match:{}},
+	{$group:{_id : "$name" , amount :{$sum:"$amount"}}}
+]).sort('-amount').exec(function(err,data){
+	if(err) throw err;
+	console.log(data);
+})
+*/
 /*vehicle.find({},function(err,allvehicles){if(err){console.log("oops");}
 else {
 console.log(allvehicles);
